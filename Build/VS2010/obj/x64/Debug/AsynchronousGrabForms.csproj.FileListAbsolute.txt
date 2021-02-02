@@ -1,0 +1,64 @@
+D:\Program Files\Allied Vision\Vimba_4.2\Doc\VimbaNET_Examples\AsynchronousGrab\Forms\Build\VS2010\x64\Debug\AsynchronousGrabForms.exe.config
+D:\Program Files\Allied Vision\Vimba_4.2\Doc\VimbaNET_Examples\AsynchronousGrab\Forms\Build\VS2010\x64\Debug\AsynchronousGrabForms.exe
+D:\Program Files\Allied Vision\Vimba_4.2\Doc\VimbaNET_Examples\AsynchronousGrab\Forms\Build\VS2010\x64\Debug\AsynchronousGrabForms.pdb
+D:\Program Files\Allied Vision\Vimba_4.2\Doc\VimbaNET_Examples\AsynchronousGrab\Forms\Build\VS2010\x64\Debug\VimbaNET.dll
+D:\Program Files\Allied Vision\Vimba_4.2\Doc\VimbaNET_Examples\AsynchronousGrab\Forms\Build\VS2010\x64\Debug\VimbaNET.xml
+D:\Program Files\Allied Vision\Vimba_4.2\Doc\VimbaNET_Examples\AsynchronousGrab\Forms\Build\VS2010\obj\x64\Debug\AsynchronousGrabForms.csprojAssemblyReference.cache
+D:\Program Files\Allied Vision\Vimba_4.2\Doc\VimbaNET_Examples\AsynchronousGrab\Forms\Build\VS2010\obj\x64\Debug\AsynchronousGrab.Resources.resources
+D:\Program Files\Allied Vision\Vimba_4.2\Doc\VimbaNET_Examples\AsynchronousGrab\Forms\Build\VS2010\obj\x64\Debug\AsynchronousGrab.MainForm.resources
+D:\Program Files\Allied Vision\Vimba_4.2\Doc\VimbaNET_Examples\AsynchronousGrab\Forms\Build\VS2010\obj\x64\Debug\AsynchronousGrabForms.csproj.GenerateResource.cache
+D:\Program Files\Allied Vision\Vimba_4.2\Doc\VimbaNET_Examples\AsynchronousGrab\Forms\Build\VS2010\obj\x64\Debug\AsynchronousGrabForms.csproj.CoreCompileInputs.cache
+D:\Program Files\Allied Vision\Vimba_4.2\Doc\VimbaNET_Examples\AsynchronousGrab\Forms\Build\VS2010\obj\x64\Debug\AsynchronousGrabForms.csproj.CopyComplete
+D:\Program Files\Allied Vision\Vimba_4.2\Doc\VimbaNET_Examples\AsynchronousGrab\Forms\Build\VS2010\obj\x64\Debug\AsynchronousGrabForms.exe
+D:\Program Files\Allied Vision\Vimba_4.2\Doc\VimbaNET_Examples\AsynchronousGrab\Forms\Build\VS2010\obj\x64\Debug\AsynchronousGrabForms.pdb
+D:\光譜程式\Vimba_A_Grab\Build\VS2010\obj\x64\Debug\AsynchronousGrabForms.csprojAssemblyReference.cache
+D:\光譜程式\Vimba_A_Grab\Build\VS2010\obj\x64\Debug\AsynchronousGrab.Resources.resources
+D:\光譜程式\Vimba_A_Grab\Build\VS2010\obj\x64\Debug\AsynchronousGrab.MainForm.resources
+D:\光譜程式\Vimba_A_Grab\Build\VS2010\obj\x64\Debug\AsynchronousGrabForms.csproj.GenerateResource.cache
+D:\光譜程式\Vimba_A_Grab\Build\VS2010\obj\x64\Debug\AsynchronousGrabForms.csproj.CoreCompileInputs.cache
+D:\光譜程式\Vimba_A_Grab\Build\VS2010\obj\x64\Debug\AsynchronousGrabForms.exe
+D:\光譜程式\Vimba_A_Grab\Build\VS2010\obj\x64\Debug\AsynchronousGrabForms.pdb
+D:\光譜程式\Vimba_A_Grab\Build\VS2010\x64\Debug\dll\x86\OpenCvSharpExtern.dll
+D:\光譜程式\Vimba_A_Grab\Build\VS2010\x64\Debug\dll\x64\OpenCvSharpExtern.dll
+D:\光譜程式\Vimba_A_Grab\Build\VS2010\x64\Debug\dll\x86\opencv_ffmpeg400.dll
+D:\光譜程式\Vimba_A_Grab\Build\VS2010\x64\Debug\dll\x64\opencv_ffmpeg400_64.dll
+D:\光譜程式\Vimba_A_Grab\Build\VS2010\x64\Debug\OpenCvSharp.Blob.dll
+D:\光譜程式\Vimba_A_Grab\Build\VS2010\x64\Debug\OpenCvSharp.dll
+D:\光譜程式\Vimba_A_Grab\Build\VS2010\x64\Debug\OpenCvSharp.pdb
+D:\光譜程式\Vimba_A_Grab\Build\VS2010\x64\Debug\OpenCvSharp.xml
+D:\光譜程式\Vimba_A_Grab\Build\VS2010\x64\Debug\OpenCvSharp.Blob.pdb
+D:\光譜程式\Vimba_A_Grab\Build\VS2010\x64\Debug\OpenCvSharp.Blob.xml
+D:\光譜程式\Vimba_A_Grab\Build\VS2010\x64\Debug\VimbaNET.xml
+D:\光譜程式\Vimba_A_Grab\Build\VS2010\obj\x64\Debug\AsynchronousGrabForms.csproj.CopyComplete
+D:\光譜程式\Vimba_A_Grab\Build\VS2010\x64\Debug\AsynchronousGrabForms.exe.config
+D:\光譜程式\Vimba_A_Grab\Build\VS2010\x64\Debug\AsynchronousGrabForms.exe
+D:\光譜程式\Vimba_A_Grab\Build\VS2010\x64\Debug\AsynchronousGrabForms.pdb
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\x64\Debug\AsynchronousGrabForms.exe.config
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\x64\Debug\AsynchronousGrabForms.exe
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\x64\Debug\AsynchronousGrabForms.pdb
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\x64\Debug\OpenCvSharp.Blob.dll
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\x64\Debug\OpenCvSharp.dll
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\x64\Debug\OpenCvSharp.xml
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\x64\Debug\OpenCvSharp.Blob.xml
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\x64\Debug\VimbaNET.xml
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\obj\x64\Debug\AsynchronousGrabForms.csprojAssemblyReference.cache
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\obj\x64\Debug\AsynchronousGrab.Resources.resources
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\obj\x64\Debug\AsynchronousGrab.MainForm.resources
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\obj\x64\Debug\AsynchronousGrabForms.csproj.GenerateResource.cache
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\obj\x64\Debug\AsynchronousGrabForms.csproj.CoreCompileInputs.cache
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\obj\x64\Debug\AsynchronousGrabForms.csproj.CopyComplete
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\obj\x64\Debug\AsynchronousGrabForms.exe
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\obj\x64\Debug\AsynchronousGrabForms.pdb
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\x64\Debug\OpenCvSharp.Extensions.dll
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\x64\Debug\OpenCvSharp.Extensions.xml
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\x64\Debug\System.Buffers.dll
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\x64\Debug\System.Drawing.Common.dll
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\x64\Debug\System.Memory.dll
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\x64\Debug\System.Numerics.Vectors.dll
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\x64\Debug\System.Runtime.CompilerServices.Unsafe.dll
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\x64\Debug\System.ValueTuple.dll
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\x64\Debug\System.Buffers.xml
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\x64\Debug\System.Memory.xml
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\x64\Debug\System.Numerics.Vectors.xml
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\x64\Debug\System.Runtime.CompilerServices.Unsafe.xml
+D:\Spectral Program\Vimba_A_Grab\Build\VS2010\x64\Debug\System.ValueTuple.xml
