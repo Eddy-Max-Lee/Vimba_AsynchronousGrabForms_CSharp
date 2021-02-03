@@ -8,7 +8,8 @@
 
   File:        Program.cs
 
-  Description: The main entry point of the AsynchronousGrab example of VimbaNET.
+  Description: The main entry point of the AsynchronousGrab example of 
+  NET.
 
 -------------------------------------------------------------------------------
 

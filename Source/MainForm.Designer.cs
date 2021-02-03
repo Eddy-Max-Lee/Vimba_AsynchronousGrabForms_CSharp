@@ -91,6 +91,14 @@ namespace AsynchronousGrab
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.button3 = new System.Windows.Forms.Button();
+            this.btn_stamp = new System.Windows.Forms.Button();
+            this.pb_sub = new System.Windows.Forms.PictureBox();
+            this.lb_result = new System.Windows.Forms.Label();
+            this.lb_center1 = new System.Windows.Forms.Label();
+            this.lb_center0 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
+            this.btn_center1 = new System.Windows.Forms.Button();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.m_DisplayPanel = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -112,6 +120,7 @@ namespace AsynchronousGrab
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_sub)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -287,6 +296,7 @@ namespace AsynchronousGrab
             this.trackBar2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.trackBar2.Location = new System.Drawing.Point(68, 3);
             this.trackBar2.Maximum = 100;
+            this.trackBar2.Minimum = 10;
             this.trackBar2.Name = "trackBar2";
             this.trackBar2.Size = new System.Drawing.Size(247, 18);
             this.trackBar2.TabIndex = 2;
@@ -335,6 +345,7 @@ namespace AsynchronousGrab
             this.trackBar1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.trackBar1.Location = new System.Drawing.Point(67, 3);
             this.trackBar1.Maximum = 100;
+            this.trackBar1.Minimum = 10;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(243, 18);
             this.trackBar1.TabIndex = 2;
@@ -441,7 +452,7 @@ namespace AsynchronousGrab
             this.tb_lens.Name = "tb_lens";
             this.tb_lens.Size = new System.Drawing.Size(115, 25);
             this.tb_lens.TabIndex = 2;
-            this.tb_lens.Text = "鏡頭編號";
+            this.tb_lens.Text = "Name";
             this.tb_lens.TextChanged += new System.EventHandler(this.tb_lens_TextChanged);
             this.tb_lens.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tb_lens_MouseDown);
             // 
@@ -477,12 +488,11 @@ namespace AsynchronousGrab
             this.m_LogList.Location = new System.Drawing.Point(0, 15);
             this.m_LogList.Margin = new System.Windows.Forms.Padding(0);
             this.m_LogList.Name = "m_LogList";
-            this.m_LogList.Size = new System.Drawing.Size(1073, 124);
+            this.m_LogList.Size = new System.Drawing.Size(1352, 124);
             this.m_LogList.TabIndex = 1;
             // 
             // m_PictureBox
             // 
-            this.m_PictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.m_PictureBox.Location = new System.Drawing.Point(0, 0);
             this.m_PictureBox.Margin = new System.Windows.Forms.Padding(0);
             this.m_PictureBox.Name = "m_PictureBox";
@@ -505,7 +515,7 @@ namespace AsynchronousGrab
             this.m_LogTable.RowCount = 2;
             this.m_LogTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.m_LogTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.m_LogTable.Size = new System.Drawing.Size(1073, 139);
+            this.m_LogTable.Size = new System.Drawing.Size(1352, 139);
             this.m_LogTable.TabIndex = 4;
             // 
             // label2
@@ -522,7 +532,7 @@ namespace AsynchronousGrab
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Location = new System.Drawing.Point(3, 21);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(1067, 22);
+            this.label3.Size = new System.Drawing.Size(1346, 22);
             this.label3.TabIndex = 5;
             this.label3.Text = "Programming example to demonstrate how to acquire images asynchronously (grab) wi" +
     "th VimbaNET.";
@@ -534,7 +544,7 @@ namespace AsynchronousGrab
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.groupBox1.Location = new System.Drawing.Point(3, 664);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1073, 46);
+            this.groupBox1.Size = new System.Drawing.Size(1352, 46);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Description";
@@ -548,6 +558,14 @@ namespace AsynchronousGrab
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.button3);
+            this.splitContainer1.Panel1.Controls.Add(this.btn_stamp);
+            this.splitContainer1.Panel1.Controls.Add(this.pb_sub);
+            this.splitContainer1.Panel1.Controls.Add(this.lb_result);
+            this.splitContainer1.Panel1.Controls.Add(this.lb_center1);
+            this.splitContainer1.Panel1.Controls.Add(this.lb_center0);
+            this.splitContainer1.Panel1.Controls.Add(this.button2);
+            this.splitContainer1.Panel1.Controls.Add(this.btn_center1);
             this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
             this.splitContainer1.Panel1MinSize = 100;
             // 
@@ -555,13 +573,92 @@ namespace AsynchronousGrab
             // 
             this.splitContainer1.Panel2.Controls.Add(this.m_LogTable);
             this.splitContainer1.Panel2MinSize = 50;
-            this.splitContainer1.Size = new System.Drawing.Size(1073, 661);
+            this.splitContainer1.Size = new System.Drawing.Size(1352, 661);
             this.splitContainer1.SplitterDistance = 518;
             this.splitContainer1.TabIndex = 8;
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(1206, 168);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(118, 49);
+            this.button3.TabIndex = 10;
+            this.button3.Text = "multiple_stamp";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // btn_stamp
+            // 
+            this.btn_stamp.Location = new System.Drawing.Point(1074, 165);
+            this.btn_stamp.Name = "btn_stamp";
+            this.btn_stamp.Size = new System.Drawing.Size(103, 53);
+            this.btn_stamp.TabIndex = 9;
+            this.btn_stamp.Text = "蓋上戳章";
+            this.btn_stamp.UseVisualStyleBackColor = true;
+            this.btn_stamp.Click += new System.EventHandler(this.btn_stamp_Click);
+            // 
+            // pb_sub
+            // 
+            this.pb_sub.Location = new System.Drawing.Point(1074, 221);
+            this.pb_sub.Margin = new System.Windows.Forms.Padding(0);
+            this.pb_sub.Name = "pb_sub";
+            this.pb_sub.Size = new System.Drawing.Size(278, 247);
+            this.pb_sub.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pb_sub.TabIndex = 8;
+            this.pb_sub.TabStop = false;
+            // 
+            // lb_result
+            // 
+            this.lb_result.AutoSize = true;
+            this.lb_result.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.lb_result.Location = new System.Drawing.Point(1091, 124);
+            this.lb_result.Name = "lb_result";
+            this.lb_result.Size = new System.Drawing.Size(53, 20);
+            this.lb_result.TabIndex = 7;
+            this.lb_result.Text = "label8";
+            // 
+            // lb_center1
+            // 
+            this.lb_center1.AutoSize = true;
+            this.lb_center1.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.lb_center1.Location = new System.Drawing.Point(1194, 72);
+            this.lb_center1.Name = "lb_center1";
+            this.lb_center1.Size = new System.Drawing.Size(53, 20);
+            this.lb_center1.TabIndex = 6;
+            this.lb_center1.Text = "label8";
+            // 
+            // lb_center0
+            // 
+            this.lb_center0.AutoSize = true;
+            this.lb_center0.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.lb_center0.Location = new System.Drawing.Point(1194, 27);
+            this.lb_center0.Name = "lb_center0";
+            this.lb_center0.Size = new System.Drawing.Size(53, 20);
+            this.lb_center0.TabIndex = 5;
+            this.lb_center0.Text = "label8";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(1074, 56);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(103, 47);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "圓心座標2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // btn_center1
+            // 
+            this.btn_center1.Location = new System.Drawing.Point(1074, 3);
+            this.btn_center1.Name = "btn_center1";
+            this.btn_center1.Size = new System.Drawing.Size(103, 47);
+            this.btn_center1.TabIndex = 3;
+            this.btn_center1.Text = "圓心座標1";
+            this.btn_center1.UseVisualStyleBackColor = true;
+            this.btn_center1.Click += new System.EventHandler(this.btn_center1_Click);
+            // 
             // splitContainer2
             // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer2.Location = new System.Drawing.Point(0, 0);
             this.splitContainer2.Name = "splitContainer2";
             // 
@@ -592,7 +689,7 @@ namespace AsynchronousGrab
             // 
             // MainForm
             // 
-            this.ClientSize = new System.Drawing.Size(1079, 713);
+            this.ClientSize = new System.Drawing.Size(1358, 713);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.groupBox1);
             this.MinimumSize = new System.Drawing.Size(400, 350);
@@ -623,9 +720,11 @@ namespace AsynchronousGrab
             this.m_LogTable.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pb_sub)).EndInit();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
@@ -674,6 +773,14 @@ namespace AsynchronousGrab
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TrackBar trackBar4;
         private System.Windows.Forms.TextBox tb_lens;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btn_center1;
+        private System.Windows.Forms.Label lb_result;
+        private System.Windows.Forms.Label lb_center1;
+        private System.Windows.Forms.Label lb_center0;
+        private System.Windows.Forms.PictureBox pb_sub;
+        private System.Windows.Forms.Button btn_stamp;
+        private System.Windows.Forms.Button button3;
     }
 }
 

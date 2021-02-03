@@ -31,14 +31,12 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
+using AVT.VmbAPINET;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 
 namespace AsynchronousGrab
 {
-
-
-
 
     /// <summary>
     /// The MainForm (GUI) Class implementation
@@ -50,6 +48,15 @@ namespace AsynchronousGrab
         private static int minR;
         private static int maxR;
         private static string LEN_NAME;
+
+        private static double centerX = -1;
+        private static double centerY = -1;
+
+        private static double centerX0 = -1;
+        private static double centerY0 = -1;
+
+        private static double centerX1 = -1;
+        private static double centerY1 = -1;
 
 
 
@@ -82,9 +89,10 @@ namespace AsynchronousGrab
                 throw new ArgumentNullException("message");
 
             }
-            
+
             int index = m_LogList.Items.Add(string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}: {1}", DateTime.Now, message));
             m_LogList.TopIndex = index;
+
         }
 
         /// <summary>
@@ -103,6 +111,21 @@ namespace AsynchronousGrab
         /// </summary>
         /// 
 
+        private static Mat previous_process(Mat src)
+        {
+            Mat dst = new Mat();
+            OpenCvSharp.Size size = new OpenCvSharp.Size(src.Width, src.Height);
+            Mat se = Cv2.GetStructuringElement(MorphShapes.Rect, size, new OpenCvSharp.Point(-1, -1));
+            //膨胀
+            Cv2.Dilate(src, dst, se, new OpenCvSharp.Point(-1, -1), 1);
+
+            //腐蚀
+            //  Cv2.Erode(dst, dst, se, new OpenCvSharp.Point(-1, -1), 1);
+
+
+
+            return dst;
+        }
         private static Mat HoughCircles(Mat src)
         {
             Mat dst = new Mat();
@@ -116,11 +139,12 @@ namespace AsynchronousGrab
             Mat m2 = new Mat(m1.Height, m1.Width, MatType.CV_8UC1);//CV_8UC1//CV_32SC1
 
 
-           // Cv2.CvtColor(m1, m2, ColorConversionCodes.BGR2GRAY);
+            // Cv2.CvtColor(m1, m2, ColorConversionCodes.BGR2GRAY);
 
             //3：霍夫圆检测：使用霍夫变换查找灰度图像中的圆。
             /*
-             * 参数：
+             * 参数：_
+             * 
              *      1：输入参数： 8位、单通道、灰度输入图像
              *      2：实现方法：目前，唯一的实现方法是HoughCirclesMethod.Gradient
              *      3: dp      :累加器分辨率与图像分辨率的反比。默认=1
@@ -135,42 +159,50 @@ namespace AsynchronousGrab
             //100,30,20,150
 
             src.CopyTo(dst);
-            
+
             // Vec3d vec = new Vec3d();
+            int Rang = 55;
 
             int i = 0;
-            for ( i = 0; i < cs.Length; i++)
+            for (i = 0; i < cs.Length; i++)
             {
+                if (i > 6) break;
                 //画圆
                 Cv2.Circle(dst, (int)cs[i].Center.X, (int)cs[i].Center.Y, (int)cs[i].Radius, new Scalar(0, 0, 255), 2, LineTypes.AntiAlias);
                 //加强圆心显示
                 Cv2.Circle(dst, (int)cs[i].Center.X, (int)cs[i].Center.Y, 3, new Scalar(0, 0, 255), 2, LineTypes.AntiAlias);
                 //寫字在旁邊
-                   Cv2.PutText(dst, LEN_NAME + "\n直徑\n"+(2*cs[i].Radius).ToString() + " pixels\n" + (Math.Round(2 * cs[i].Radius*4.8/1000),4).ToString() + " mm", new OpenCvSharp.Point(((((int)cs[i].Center.X + (int)cs[i].Radius + 100) < src.Width) ? ((int)cs[i].Center.X + (int)cs[i].Radius + 10) : ((int)cs[i].Center.X - (int)cs[i].Radius - 20)), (int)cs[i].Center.Y),
-                       HersheyFonts.HersheyPlain, 12, new Scalar(255, 255, 255), 5, LineTypes.AntiAlias);
+                Cv2.PutText(dst, LEN_NAME != "" ? LEN_NAME : "Name", new OpenCvSharp.Point(((((int)cs[i].Center.X + (int)cs[i].Radius + 100) < src.Width) ? ((int)cs[i].Center.X + (int)cs[i].Radius + 10) : ((int)cs[i].Center.X - (int)cs[i].Radius - 20)), (int)cs[i].Center.Y),
+                       HersheyFonts.HersheyComplex, 2, new Scalar(255, 255, 255), 2, LineTypes.AntiAlias);
+                Cv2.PutText(dst, (2 * cs[i].Radius).ToString() + " pixels", new OpenCvSharp.Point(((((int)cs[i].Center.X + (int)cs[i].Radius + 100) < src.Width) ? ((int)cs[i].Center.X + (int)cs[i].Radius + 10) : ((int)cs[i].Center.X - (int)cs[i].Radius - 20)), (int)cs[i].Center.Y + Rang),
+                    HersheyFonts.HersheyComplex, 2, new Scalar(255, 255, 255), 2, LineTypes.AntiAlias);
+                Cv2.PutText(dst, cs[i].Radius * 0.0096 + " mm", new OpenCvSharp.Point(((((int)cs[i].Center.X + (int)cs[i].Radius + 100) < src.Width) ? ((int)cs[i].Center.X + (int)cs[i].Radius + 10) : ((int)cs[i].Center.X - (int)cs[i].Radius - 20)), (int)cs[i].Center.Y + Rang * 2),
+                    HersheyFonts.HersheyComplex, 2, new Scalar(255, 255, 255), 2, LineTypes.AntiAlias);
                 //Cv2.PutText(dst, cs[i].Radius.ToString(), new OpenCvSharp.Point(0,0), HersheyFonts.HersheyPlain, 12, new Scalar(255, 255, 255), 5, LineTypes.AntiAlias);
+            }
+            //   (  (((int) cs[i].Center.X+ (int) cs[i].Radius+100)  < src.Width)?      ((int) cs[i].Center.X + (int) cs[i].Radius + 10) :            ((int) cs[i].Center.X - (int) cs[i].Radius - 20))
 
-
-        }
-   //   (  (((int) cs[i].Center.X+ (int) cs[i].Radius+100)  < src.Width)?      ((int) cs[i].Center.X + (int) cs[i].Radius + 10) :            ((int) cs[i].Center.X - (int) cs[i].Radius - 20))
-
-      // ((<src.Width)? (((int) cs[i].Center.X + (int) cs[i].Radius + 10) < src.Width))): (int) cs[i].Center.X - (int) cs[i].Radius - 20))
+            // ((<src.Width)? (((int) cs[i].Center.X + (int) cs[i].Radius + 10) < src.Width))): (int) cs[i].Center.X - (int) cs[i].Radius - 20))
             /*    using (new OpenCvSharp.Window("OutputImage", WindowMode.AutoSize, dst))
                 using (new OpenCvSharp.Window("InputImage", WindowMode.AutoSize, src))
                  
                     Cv2.WaitKey(0);
                 }*/
-            
-            foreach (var rad in cs){
-                Console.Write(rad.Radius+',');
-                
-              //  Console.WriteLine("%");
+            if (cs.Length == 1)
+            {
+                centerX = cs[0].Center.X;
+                centerY = cs[0].Center.Y;
+            }
+
+            foreach (var rad in cs)
+            {
+                Console.Write(rad.Radius + ',');
             }
             Console.WriteLine("There are " + i + " in this frame");
             return dst;
 
         }
- 
+
         private void UpdateCameraList()
         {
             // Remember the old selection (if there was any)y
@@ -262,19 +294,23 @@ namespace AsynchronousGrab
                 // Display image
                 Bitmap bmp = (Bitmap)args.Image;
                 Mat mat0 = new Mat();
-                mat0 =  BitmapConverter.ToMat(bmp); 
-         
-               
+                mat0 = BitmapConverter.ToMat(bmp);
+                
 
-               // Mat mat = new Mat(image);
-               //=  image.Mat;
+
+                // Mat mat = new Mat(image);
+                //=  image.Mat;
 
                 if (null != mat0)
                 {
                     //mat = HoughCircles(mat);
-
-                  //  Mat2Bitmap(mat);
-                    m_PictureBox.Image = BitmapConverter.ToBitmap(HoughCircles(mat0)); //<====影像
+                    Mat mat1 = new Mat();
+                    mat1 = previous_process(mat0);
+                    pb_sub.Image = BitmapConverter.ToBitmap(mat1);
+                    //  Mat2Bitmap(mat);
+                    BMP_BUFF = BitmapConverter.ToBitmap(HoughCircles(mat0));
+                    m_PictureBox.Image = BMP_BUFF; //<====影像
+                   
 
                 }
                 else
@@ -325,7 +361,7 @@ namespace AsynchronousGrab
             }
             catch (Exception e)
             {
-              //  log.Error(e.ToString());
+                //  log.Error(e.ToString());
             }
             finally
             {
@@ -346,11 +382,11 @@ namespace AsynchronousGrab
         /// <param name="e">The EventArgs (not used)</param>
         private void MainForm_Load(object sender, EventArgs e)
         {
-          //  Mat mat0 = new Mat();
-          p1 = trackBar1.Value;
-         p2 = trackBar2.Value;
-         minR = trackBar3.Value;
-         maxR = trackBar4.Value;
+            //  Mat mat0 = new Mat();
+            p1 = trackBar1.Value;
+            p2 = trackBar2.Value;
+            minR = trackBar3.Value;
+            maxR = trackBar4.Value;
             LEN_NAME = tb_lens.Text;
             try
             {
@@ -619,18 +655,18 @@ namespace AsynchronousGrab
         private void button1_Click(object sender, EventArgs e)
         {
             SaveFileDialog dialog = new SaveFileDialog();
-            dialog.FileName = LEN_NAME+"jpg";
+            dialog.FileName = LEN_NAME + ".bmp";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 int width = Convert.ToInt32(m_PictureBox.Width);
                 int height = Convert.ToInt32(m_PictureBox.Height);
                 Bitmap bmp = new Bitmap(width, height);
                 m_PictureBox.DrawToBitmap(bmp, new Rectangle(0, 0, width, height));
-                
-                bmp.Save(dialog.FileName+".jpg", ImageFormat.Jpeg);
+
+                bmp.Save(dialog.FileName + ".bmp", ImageFormat.Bmp);
             }
         }
-
+        Bitmap BMP_BUFF;
         private void btn_Load_Click(object sender, EventArgs e)
         {
             // open file dialog   
@@ -639,41 +675,189 @@ namespace AsynchronousGrab
             open.Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp";
             if (open.ShowDialog() == DialogResult.OK)
             {
+                char sp1 = '\\';
+                char sp2 = '.';
+                string name_buff = open.FileName.Split(sp1)[open.FileName.Split(sp1).Length - 1];
+                tb_lens.Text = name_buff.Split(sp2)[0];
+                LEN_NAME = tb_lens.Text;
+                LEN_NAME = tb_lens.Text;
+                LEN_NAME = tb_lens.Text;
+
+                Mat mat0 = new Mat();
+                Bitmap bmp = new Bitmap(open.FileName);
+                mat0 = BitmapConverter.ToMat(bmp);
+
+                bmp = BitmapConverter.ToBitmap(HoughCircles(mat0));
                 // display image in picture box  
-                m_PictureBox.Image = new Bitmap(open.FileName);
+                m_PictureBox.Image = bmp;
+                BMP_BUFF = bmp;
+
                 // image file path  
-                //textBox1.Text = open.FileName;
+
             }
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            p1=trackBar1.Value;
+            p1 = trackBar1.Value;
+
+            if (m_Acquiring == false)
+            {
+                Mat mat0 = new Mat();
+                Bitmap bmp = new Bitmap(BMP_BUFF);
+                mat0 = BitmapConverter.ToMat(BMP_BUFF);
+                bmp = BitmapConverter.ToBitmap(HoughCircles(mat0));
+                // display image in picture box  
+                m_PictureBox.Image = bmp;
+            }
+
         }
 
         private void trackBar2_Scroll(object sender, EventArgs e)
         {
             p2 = trackBar2.Value;
+
+            if (m_Acquiring == false)
+            {
+                Mat mat0 = new Mat();
+                Bitmap bmp = new Bitmap(BMP_BUFF);
+                mat0 = BitmapConverter.ToMat(BMP_BUFF);
+                bmp = BitmapConverter.ToBitmap(HoughCircles(mat0));
+                // display image in picture box  
+                m_PictureBox.Image = bmp;
+            }
         }
 
         private void trackBar3_Scroll(object sender, EventArgs e)
         {
             minR = trackBar3.Value;
+
+            if (m_Acquiring == false)
+            {
+                Mat mat0 = new Mat();
+                Bitmap bmp = new Bitmap(BMP_BUFF);
+                mat0 = BitmapConverter.ToMat(BMP_BUFF);
+                bmp = BitmapConverter.ToBitmap(HoughCircles(mat0));
+                // display image in picture box  
+                m_PictureBox.Image = bmp;
+            }
         }
 
         private void trackBar4_Scroll(object sender, EventArgs e)
         {
             maxR = trackBar4.Value;
+
+            if (m_Acquiring == false)
+            {
+                Mat mat0 = new Mat();
+                Bitmap bmp = new Bitmap(BMP_BUFF);
+                mat0 = BitmapConverter.ToMat(BMP_BUFF);
+                bmp = BitmapConverter.ToBitmap(HoughCircles(mat0));
+                // display image in picture box  
+                m_PictureBox.Image = bmp;
+            }
         }
 
         private void tb_lens_TextChanged(object sender, EventArgs e)
         {
-           LEN_NAME = tb_lens.Text;
+            LEN_NAME = tb_lens.Text;
         }
 
         private void tb_lens_MouseDown(object sender, MouseEventArgs e)
         {
             tb_lens.Text = "";
+        }
+
+        private void btn_center1_Click(object sender, EventArgs e)
+        {
+            centerX0 = centerX;
+            centerY0 = centerY;
+            lb_center0.Text = "(" + centerX.ToString() + ", " + centerY.ToString() + ")";
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            centerX1 = centerX;
+            centerY1 = centerY;
+            lb_center1.Text = "(" + centerX.ToString() + ", " + centerY.ToString() + ")";
+            //===總和
+            double distant = Math.Sqrt(Math.Pow(Math.Abs(centerX1 - centerX0), 2) + Math.Pow(Math.Abs(centerY1 - centerY0), 2));
+            lb_result.Text = "X軸偏移: " + Math.Abs(centerX1 - centerX0) + "\nY軸偏移: " + Math.Abs(centerY1 - centerY0) + "\n距離: " + distant;
+
+        }
+
+        private void btn_stamp_Click(object sender, EventArgs e)
+        {
+            Mat mat0 = new Mat();
+            Bitmap bmp = new Bitmap(BMP_BUFF);
+            mat0 = BitmapConverter.ToMat(BMP_BUFF);
+
+            // display image in picture box  
+            m_PictureBox.Image = bmp;
+
+
+            Cv2.PutText(mat0, LEN_NAME !=""? LEN_NAME:"Name", new OpenCvSharp.Point(30, 80), HersheyFonts.HersheyComplex, 3, new Scalar(255, 255, 255), 2, LineTypes.AntiAlias);
+            bmp = BitmapConverter.ToBitmap(mat0);
+
+            //------Save
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.FileName = LEN_NAME + "_stamped.bmp";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                int width = Convert.ToInt32(m_PictureBox.Width);
+                int height = Convert.ToInt32(m_PictureBox.Height);
+
+                // m_PictureBox.DrawToBitmap(bmp, new Rectangle(0, 0, width, height));
+
+                bmp.Save(dialog.FileName + ".bmp", ImageFormat.Bmp);
+            }
+
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            /*string defaultPath = "";
+            FolderBrowserDialog open = new FolderBrowserDialog();
+            open.Description = "please select a folder";
+            open.ShowNewFolderButton = false;
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                defaultPath = open.SelectedPath;
+            }
+            DirectoryInfo d = new DirectoryInfo(open.SelectedPath);
+            FileSystemInfo[] fsinfos = d.GetFileSystemInfos();
+            foreach(FileSystemInfo fsinfo in fsinfos)
+            {
+                if (fsinfo is DirectoryInfo)
+                    continue;
+                else
+                {
+
+                }
+            }
+            
+            // image filters  
+            open.Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp";
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                char sp1 = '\\';
+                char sp2 = '.';
+                string name_buff = open.FileName.Split(sp1)[open.FileName.Split(sp1).Length - 1];
+                tb_lens.Text = name_buff.Split(sp2)[0];
+                LEN_NAME = tb_lens.Text;
+                
+
+                Mat mat0 = new Mat();
+                Bitmap bmp = new Bitmap(open.FileName);
+                mat0 = BitmapConverter.ToMat(bmp);
+
+                bmp = BitmapConverter.ToBitmap(HoughCircles(mat0));
+                // display image in picture box  
+                m_PictureBox.Image = bmp;
+                BMP_BUFF = bmp;
+
+                // image file path  
+
+            }*/
         }
     }
 }
