@@ -120,6 +120,22 @@ namespace AsynchronousGrab
             this.ReleaseVimba();
         }
 
+        public double ExposureTime
+        {
+            get { return ExposureTimeFeature.FloatValue; }
+            set { ExposureTimeFeature.FloatValue = value; }
+        }
+        public AVT.VmbAPINET.Feature ExposureTimeFeature
+        {
+            get
+            {
+                if (m_ExposureTimeFeature == null)
+                    m_ExposureTimeFeature = m_Camera.Features["ExposureTime"];
+                return m_ExposureTimeFeature;
+            }
+        }
+        private AVT.VmbAPINET.Feature m_ExposureTimeFeature = null;
+
 
         // Set EXP Eddy2021.01.29
         public void Set_EXP(int exp)

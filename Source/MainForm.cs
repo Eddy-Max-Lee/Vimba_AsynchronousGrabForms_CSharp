@@ -31,9 +31,13 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
+using System.Windows.Input;
 using AVT.VmbAPINET;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
+using Mako_Camera;
+using System.Threading;
+using System.Linq;
 
 namespace AsynchronousGrab
 {
@@ -58,7 +62,14 @@ namespace AsynchronousGrab
         private static double centerX1 = -1;
         private static double centerY1 = -1;
 
+        private static int global_shiftX = 0;
+        private static int global_shiftY = 0;
 
+        private static int global_crossX = 640;
+        private static int global_crossY = 512;
+
+        private static double global_scaleX = 1;
+        private static double global_scaleY = 1;
 
         /// <summary>
         /// The VimbaHelper (see VimbaHelper Class)
@@ -111,6 +122,14 @@ namespace AsynchronousGrab
         /// </summary>
         /// 
 
+        private void ScaleImage(Bitmap src)
+        {
+            global_scaleX = Convert.ToDouble(src.Width)/m_PictureBox.Width; //理論上要>1
+            global_scaleY = Convert.ToDouble(src.Height) / m_PictureBox.Height;
+            //PB上的座標->實際照片(1280X1024)，要乘Scale
+            //實際照片(1280X1024)->PB上的座標，要除上Scale
+        }
+
         private static Mat previous_process(Mat src)
         {
             Mat dst = new Mat();
@@ -126,15 +145,38 @@ namespace AsynchronousGrab
 
             return dst;
         }
-        private static Mat HoughCircles(Mat src)
+        private static Mat MoveCircle(Mat src, string dir, int step)
+        {
+            Mat dst = new Mat();
+            src.CopyTo(dst);
+
+            return dst;
+        }
+
+        private static Mat DrawCross(Mat src)
+        {
+            Mat dst = new Mat();
+            src.CopyTo(dst);
+            //畫橫線global_crossX global_crossY
+            Cv2.Line(dst,0, global_crossY, src.Width, global_crossY, new Scalar(255,255,255),1,LineTypes.AntiAlias);
+            //畫直線global_crossX global_crossY
+            Cv2.Line(dst, global_crossX, 0, global_crossX, src.Height, new Scalar(255, 255, 255), 1, LineTypes.AntiAlias);
+            //  Allied_Vision_Mako_U_130BCamera.ExposureTime
+            //  Allied_Vision_Mako_U_130BCamera = new Allied_Vision_Mako_U_130BCamera();
+
+            return dst;
+        }
+
+
+        private static Mat HoughCircles(Mat src, int shiftX, int shiftY) // shiftX為偏移距離
         {
             Mat dst = new Mat();
 
 
             //1:因为霍夫圆检测对噪声比较敏感，所以首先对图像做一个中值滤波或高斯滤波(噪声如果没有可以不做)
             Mat m1 = new Mat();
-            Cv2.MedianBlur(src, m1, 3); //  ksize必须大于1且是奇数
-
+            Cv2.MedianBlur(src, m1, 11); //  ksize必须大于1且是奇数
+           // m1 = DrawCross(m1);
             //2：转为灰度图像
             Mat m2 = new Mat(m1.Height, m1.Width, MatType.CV_8UC1);//CV_8UC1//CV_32SC1
 
@@ -168,15 +210,15 @@ namespace AsynchronousGrab
             {
                 if (i > 6) break;
                 //画圆
-                Cv2.Circle(dst, (int)cs[i].Center.X, (int)cs[i].Center.Y, (int)cs[i].Radius, new Scalar(0, 0, 255), 2, LineTypes.AntiAlias);
+                Cv2.Circle(dst, (int)cs[i].Center.X + shiftX, (int)cs[i].Center.Y + shiftY, (int)cs[i].Radius, new Scalar(0, 0, 255), 2, LineTypes.AntiAlias);
                 //加强圆心显示
-                Cv2.Circle(dst, (int)cs[i].Center.X, (int)cs[i].Center.Y, 3, new Scalar(0, 0, 255), 2, LineTypes.AntiAlias);
+                Cv2.Circle(dst, (int)cs[i].Center.X + shiftX, (int)cs[i].Center.Y + shiftY, 3, new Scalar(0, 0, 255), 2, LineTypes.AntiAlias);
                 //寫字在旁邊
-                Cv2.PutText(dst, LEN_NAME != "" ? LEN_NAME : "Name", new OpenCvSharp.Point(((((int)cs[i].Center.X + (int)cs[i].Radius + 100) < src.Width) ? ((int)cs[i].Center.X + (int)cs[i].Radius + 10) : ((int)cs[i].Center.X - (int)cs[i].Radius - 20)), (int)cs[i].Center.Y),
+                Cv2.PutText(dst, LEN_NAME != "" ? LEN_NAME : "Name", new OpenCvSharp.Point(((((int)cs[i].Center.X + shiftX + (int)cs[i].Radius + 100) < src.Width) ? ((int)cs[i].Center.X + shiftX + (int)cs[i].Radius + 10) : ((int)cs[i].Center.X + shiftX - (int)cs[i].Radius - 20)), (int)cs[i].Center.Y + shiftY),
                        HersheyFonts.HersheyComplex, 2, new Scalar(255, 255, 255), 2, LineTypes.AntiAlias);
-                Cv2.PutText(dst, (2 * cs[i].Radius).ToString() + " pixels", new OpenCvSharp.Point(((((int)cs[i].Center.X + (int)cs[i].Radius + 100) < src.Width) ? ((int)cs[i].Center.X + (int)cs[i].Radius + 10) : ((int)cs[i].Center.X - (int)cs[i].Radius - 20)), (int)cs[i].Center.Y + Rang),
+                Cv2.PutText(dst, (2 * cs[i].Radius).ToString() + " pixels", new OpenCvSharp.Point(((((int)cs[i].Center.X + shiftX + (int)cs[i].Radius + 100) < src.Width) ? ((int)cs[i].Center.X + shiftX + (int)cs[i].Radius + 10) : ((int)cs[i].Center.X + shiftX - (int)cs[i].Radius - 20)), (int)cs[i].Center.Y + shiftY + Rang),
                     HersheyFonts.HersheyComplex, 2, new Scalar(255, 255, 255), 2, LineTypes.AntiAlias);
-                Cv2.PutText(dst, cs[i].Radius * 0.0096 + " mm", new OpenCvSharp.Point(((((int)cs[i].Center.X + (int)cs[i].Radius + 100) < src.Width) ? ((int)cs[i].Center.X + (int)cs[i].Radius + 10) : ((int)cs[i].Center.X - (int)cs[i].Radius - 20)), (int)cs[i].Center.Y + Rang * 2),
+                Cv2.PutText(dst, cs[i].Radius * 0.0096 + " mm", new OpenCvSharp.Point(((((int)cs[i].Center.X + shiftX + (int)cs[i].Radius + 100) < src.Width) ? ((int)cs[i].Center.X + shiftX + (int)cs[i].Radius + 10) : ((int)cs[i].Center.X + shiftX - (int)cs[i].Radius - 20)), (int)cs[i].Center.Y + shiftY + Rang * 2),
                     HersheyFonts.HersheyComplex, 2, new Scalar(255, 255, 255), 2, LineTypes.AntiAlias);
                 //Cv2.PutText(dst, cs[i].Radius.ToString(), new OpenCvSharp.Point(0,0), HersheyFonts.HersheyPlain, 12, new Scalar(255, 255, 255), 5, LineTypes.AntiAlias);
             }
@@ -190,8 +232,8 @@ namespace AsynchronousGrab
                 }*/
             if (cs.Length == 1)
             {
-                centerX = cs[0].Center.X;
-                centerY = cs[0].Center.Y;
+                centerX = cs[0].Center.X + shiftX;
+                centerY = cs[0].Center.Y + shiftY;
             }
 
             foreach (var rad in cs)
@@ -295,7 +337,7 @@ namespace AsynchronousGrab
                 Bitmap bmp = (Bitmap)args.Image;
                 Mat mat0 = new Mat();
                 mat0 = BitmapConverter.ToMat(bmp);
-                
+
 
 
                 // Mat mat = new Mat(image);
@@ -305,12 +347,16 @@ namespace AsynchronousGrab
                 {
                     //mat = HoughCircles(mat);
                     Mat mat1 = new Mat();
+                    
                     mat1 = previous_process(mat0);
+
                     pb_sub.Image = BitmapConverter.ToBitmap(mat1);
                     //  Mat2Bitmap(mat);
-                    BMP_BUFF = BitmapConverter.ToBitmap(HoughCircles(mat0));
+                    BMP_BUFF = BitmapConverter.ToBitmap(HoughCircles(mat0, global_shiftX, global_shiftY));
                     m_PictureBox.Image = BMP_BUFF; //<====影像
-                   
+                    ScaleImage(BMP_BUFF);
+                    Thread.Sleep(500);
+
 
                 }
                 else
@@ -596,6 +642,17 @@ namespace AsynchronousGrab
         private void PictureBox_Paint(object sender, PaintEventArgs e)
         {
             VimbaHelper.ImageInUse = true;
+
+            // Create a local version of the graphics object for the PictureBox.
+            Graphics g = e.Graphics;
+            // Draw a line in the PictureBox.
+            g.DrawLine(System.Drawing.Pens.Red, 0, Convert.ToInt32(Math.Round(global_crossY/global_scaleY)), Convert.ToInt32(m_PictureBox.Width), Convert.ToInt32(Math.Round(global_crossY / global_scaleY)));
+            g.DrawLine(System.Drawing.Pens.Red, Convert.ToInt32(Math.Round(global_crossX / global_scaleX)), 0, Convert.ToInt32(Math.Round(global_crossX / global_scaleX)), Convert.ToInt32(m_PictureBox.Height ));
+
+             //  Allied_Vision_Mako_U_130BCamera.ExposureTime
+            // Draw a string on the PictureBox.
+            // g.DrawString("This is a diagonal line drawn on the control",  fnt, System.Drawing.Brushes.Blue, new System.Drawing.Point(30, 30));
+
         }
 
         /// <summary>
@@ -680,17 +737,18 @@ namespace AsynchronousGrab
                 string name_buff = open.FileName.Split(sp1)[open.FileName.Split(sp1).Length - 1];
                 tb_lens.Text = name_buff.Split(sp2)[0];
                 LEN_NAME = tb_lens.Text;
-                LEN_NAME = tb_lens.Text;
-                LEN_NAME = tb_lens.Text;
 
-                Mat mat0 = new Mat();
+
+                //Mat mat0 ;
                 Bitmap bmp = new Bitmap(open.FileName);
-                mat0 = BitmapConverter.ToMat(bmp);
+                Mat mat0 = BitmapConverter.ToMat(bmp);
 
-                bmp = BitmapConverter.ToBitmap(HoughCircles(mat0));
+                bmp = BitmapConverter.ToBitmap(HoughCircles(mat0, global_shiftX, global_shiftY));
                 // display image in picture box  
                 m_PictureBox.Image = bmp;
+
                 BMP_BUFF = bmp;
+                ScaleImage(BMP_BUFF);
 
                 // image file path  
 
@@ -700,15 +758,17 @@ namespace AsynchronousGrab
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             p1 = trackBar1.Value;
+            tb_p1.Text = p1.ToString();
 
             if (m_Acquiring == false)
             {
                 Mat mat0 = new Mat();
                 Bitmap bmp = new Bitmap(BMP_BUFF);
                 mat0 = BitmapConverter.ToMat(BMP_BUFF);
-                bmp = BitmapConverter.ToBitmap(HoughCircles(mat0));
+                bmp = BitmapConverter.ToBitmap(HoughCircles(mat0, global_shiftX, global_shiftY));
                 // display image in picture box  
                 m_PictureBox.Image = bmp;
+                ScaleImage(BMP_BUFF);
             }
 
         }
@@ -716,45 +776,54 @@ namespace AsynchronousGrab
         private void trackBar2_Scroll(object sender, EventArgs e)
         {
             p2 = trackBar2.Value;
+            tb_p2.Text = p2.ToString();
 
             if (m_Acquiring == false)
             {
                 Mat mat0 = new Mat();
                 Bitmap bmp = new Bitmap(BMP_BUFF);
                 mat0 = BitmapConverter.ToMat(BMP_BUFF);
-                bmp = BitmapConverter.ToBitmap(HoughCircles(mat0));
+                bmp = BitmapConverter.ToBitmap(HoughCircles(mat0, global_shiftX, global_shiftY));
                 // display image in picture box  
                 m_PictureBox.Image = bmp;
+               
+                ScaleImage(BMP_BUFF);
             }
         }
 
         private void trackBar3_Scroll(object sender, EventArgs e)
         {
             minR = trackBar3.Value;
+            tb_minR.Text = minR.ToString();
 
             if (m_Acquiring == false)
             {
                 Mat mat0 = new Mat();
                 Bitmap bmp = new Bitmap(BMP_BUFF);
                 mat0 = BitmapConverter.ToMat(BMP_BUFF);
-                bmp = BitmapConverter.ToBitmap(HoughCircles(mat0));
+                bmp = BitmapConverter.ToBitmap(HoughCircles(mat0, global_shiftX, global_shiftY));
                 // display image in picture box  
                 m_PictureBox.Image = bmp;
+              
+                ScaleImage(BMP_BUFF);
             }
         }
 
         private void trackBar4_Scroll(object sender, EventArgs e)
         {
             maxR = trackBar4.Value;
+            tb_maxR.Text = maxR.ToString();
 
             if (m_Acquiring == false)
             {
                 Mat mat0 = new Mat();
                 Bitmap bmp = new Bitmap(BMP_BUFF);
                 mat0 = BitmapConverter.ToMat(BMP_BUFF);
-                bmp = BitmapConverter.ToBitmap(HoughCircles(mat0));
+                bmp = BitmapConverter.ToBitmap(HoughCircles(mat0, global_shiftX, global_shiftY));
                 // display image in picture box  
                 m_PictureBox.Image = bmp;
+               
+                ScaleImage(BMP_BUFF);
             }
         }
 
@@ -763,7 +832,7 @@ namespace AsynchronousGrab
             LEN_NAME = tb_lens.Text;
         }
 
-        private void tb_lens_MouseDown(object sender, MouseEventArgs e)
+        private void tb_lens_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             tb_lens.Text = "";
         }
@@ -782,7 +851,7 @@ namespace AsynchronousGrab
             lb_center1.Text = "(" + centerX.ToString() + ", " + centerY.ToString() + ")";
             //===總和
             double distant = Math.Sqrt(Math.Pow(Math.Abs(centerX1 - centerX0), 2) + Math.Pow(Math.Abs(centerY1 - centerY0), 2));
-            lb_result.Text = "X軸偏移: " + Math.Abs(centerX1 - centerX0) + "\nY軸偏移: " + Math.Abs(centerY1 - centerY0) + "\n距離: " + distant;
+            rtb_result.Text = "X軸偏移: " + Math.Abs(centerX1 - centerX0) + "\nY軸偏移: " + Math.Abs(centerY1 - centerY0) + "\n距離: " + distant;
 
         }
 
@@ -796,7 +865,7 @@ namespace AsynchronousGrab
             m_PictureBox.Image = bmp;
 
 
-            Cv2.PutText(mat0, LEN_NAME !=""? LEN_NAME:"Name", new OpenCvSharp.Point(30, 80), HersheyFonts.HersheyComplex, 3, new Scalar(255, 255, 255), 2, LineTypes.AntiAlias);
+            Cv2.PutText(mat0, LEN_NAME != "" ? LEN_NAME : "Name", new OpenCvSharp.Point(30, 80), HersheyFonts.HersheyComplex, 3, new Scalar(255, 255, 255), 2, LineTypes.AntiAlias);
             bmp = BitmapConverter.ToBitmap(mat0);
 
             //------Save
@@ -858,6 +927,82 @@ namespace AsynchronousGrab
                 // image file path  
 
             }*/
+        }
+
+        private void MainForm_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            int step = 5;
+            switch (e.KeyChar)
+            {
+                case (char)Key.Up:
+                    global_shiftY = global_shiftY - step;
+                    break;
+                case (char)Key.Down:
+                    global_shiftY = global_shiftY + step;
+                    break;
+                case (char)Key.Left:
+                    global_shiftX = global_shiftX - step;
+                    break;
+                case (char)Key.Right:
+                    global_shiftX = global_shiftX + step;
+                    break;
+                default:
+                    break;
+            }
+
+
+        }
+
+        private void trackBar5_Scroll(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void trackBar5_Scroll_1(object sender, EventArgs e)
+        {
+            m_VimbaHelper.ExposureTime = tb_exp.Value;
+            tb_expp.Text = tb_exp.Value.ToString();
+        }
+
+
+
+        private void cb_cross_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cb_cross.Checked)
+            {
+
+            }
+            else {
+
+               
+            }
+            m_PictureBox.Refresh();
+
+        }
+
+        private void btn_modifyCross_Click(object sender, EventArgs e)
+        {
+            global_crossX=Convert.ToInt32(tb_crossX.Text);
+            global_crossY = Convert.ToInt32(tb_crossY.Text);
+            m_PictureBox.Refresh();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            //自動載入PARAMETER
+            List<string> Para_memory = new List<string>();
+            Para_memory = File.ReadAllLines(@"param\" + "memory.txt").ToList();
+           
+            tb_crossX.Text = Para_memory[0];
+            tb_crossY.Text = Para_memory[1];
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            List<string> para_memory = new List<string>();
+            para_memory.Add(tb_crossX.Text+"\n"+ tb_crossY.Text);
+            File.WriteAllLines(@"param\" + "memory.txt", para_memory);
         }
     }
 }

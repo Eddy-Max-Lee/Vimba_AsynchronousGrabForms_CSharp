@@ -59,15 +59,15 @@ namespace AsynchronousGrab
             this.components = new System.ComponentModel.Container();
             this.m_CameraListTable = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.tb_maxR = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.trackBar4 = new System.Windows.Forms.TrackBar();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.tb_minR = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.trackBar3 = new System.Windows.Forms.TrackBar();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tb_p2 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.trackBar2 = new System.Windows.Forms.TrackBar();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -91,6 +91,15 @@ namespace AsynchronousGrab
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.tb_expp = new System.Windows.Forms.TextBox();
+            this.btn_modifyCross = new System.Windows.Forms.Button();
+            this.tb_crossY = new System.Windows.Forms.TextBox();
+            this.tb_crossX = new System.Windows.Forms.TextBox();
+            this.tb_exp = new System.Windows.Forms.TrackBar();
+            this.cb_cross = new System.Windows.Forms.CheckBox();
+            this.rtb_result = new System.Windows.Forms.RichTextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.btn_stamp = new System.Windows.Forms.Button();
             this.pb_sub = new System.Windows.Forms.PictureBox();
@@ -102,6 +111,7 @@ namespace AsynchronousGrab
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.m_DisplayPanel = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.m_CameraListTable.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).BeginInit();
@@ -120,6 +130,7 @@ namespace AsynchronousGrab
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tb_exp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_sub)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
@@ -164,7 +175,7 @@ namespace AsynchronousGrab
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.09402F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.23932F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel5.Controls.Add(this.textBox3, 2, 0);
+            this.tableLayoutPanel5.Controls.Add(this.tb_maxR, 2, 0);
             this.tableLayoutPanel5.Controls.Add(this.label7, 0, 0);
             this.tableLayoutPanel5.Controls.Add(this.trackBar4, 1, 0);
             this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -175,13 +186,13 @@ namespace AsynchronousGrab
             this.tableLayoutPanel5.Size = new System.Drawing.Size(383, 24);
             this.tableLayoutPanel5.TabIndex = 8;
             // 
-            // textBox3
+            // tb_maxR
             // 
-            this.textBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox3.Location = new System.Drawing.Point(321, 3);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(59, 25);
-            this.textBox3.TabIndex = 0;
+            this.tb_maxR.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tb_maxR.Location = new System.Drawing.Point(321, 3);
+            this.tb_maxR.Name = "tb_maxR";
+            this.tb_maxR.Size = new System.Drawing.Size(59, 25);
+            this.tb_maxR.TabIndex = 0;
             // 
             // label7
             // 
@@ -212,7 +223,7 @@ namespace AsynchronousGrab
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.09402F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.23932F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel4.Controls.Add(this.textBox2, 2, 0);
+            this.tableLayoutPanel4.Controls.Add(this.tb_minR, 2, 0);
             this.tableLayoutPanel4.Controls.Add(this.label6, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.trackBar3, 1, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -223,13 +234,13 @@ namespace AsynchronousGrab
             this.tableLayoutPanel4.Size = new System.Drawing.Size(383, 24);
             this.tableLayoutPanel4.TabIndex = 7;
             // 
-            // textBox2
+            // tb_minR
             // 
-            this.textBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox2.Location = new System.Drawing.Point(321, 3);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(59, 25);
-            this.textBox2.TabIndex = 0;
+            this.tb_minR.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tb_minR.Location = new System.Drawing.Point(321, 3);
+            this.tb_minR.Name = "tb_minR";
+            this.tb_minR.Size = new System.Drawing.Size(59, 25);
+            this.tb_minR.TabIndex = 0;
             // 
             // label6
             // 
@@ -260,7 +271,7 @@ namespace AsynchronousGrab
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.09402F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.23932F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel3.Controls.Add(this.textBox1, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.tb_p2, 2, 0);
             this.tableLayoutPanel3.Controls.Add(this.label5, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.trackBar2, 1, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -271,13 +282,13 @@ namespace AsynchronousGrab
             this.tableLayoutPanel3.Size = new System.Drawing.Size(383, 24);
             this.tableLayoutPanel3.TabIndex = 6;
             // 
-            // textBox1
+            // tb_p2
             // 
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(321, 3);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(59, 25);
-            this.textBox1.TabIndex = 0;
+            this.tb_p2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tb_p2.Location = new System.Drawing.Point(321, 3);
+            this.tb_p2.Name = "tb_p2";
+            this.tb_p2.Size = new System.Drawing.Size(59, 25);
+            this.tb_p2.TabIndex = 0;
             // 
             // label5
             // 
@@ -488,16 +499,17 @@ namespace AsynchronousGrab
             this.m_LogList.Location = new System.Drawing.Point(0, 15);
             this.m_LogList.Margin = new System.Windows.Forms.Padding(0);
             this.m_LogList.Name = "m_LogList";
-            this.m_LogList.Size = new System.Drawing.Size(1352, 124);
+            this.m_LogList.Size = new System.Drawing.Size(1396, 124);
             this.m_LogList.TabIndex = 1;
             // 
             // m_PictureBox
             // 
+            this.m_PictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.m_PictureBox.Location = new System.Drawing.Point(0, 0);
             this.m_PictureBox.Margin = new System.Windows.Forms.Padding(0);
             this.m_PictureBox.Name = "m_PictureBox";
             this.m_PictureBox.Size = new System.Drawing.Size(676, 514);
-            this.m_PictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.m_PictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.m_PictureBox.TabIndex = 2;
             this.m_PictureBox.TabStop = false;
             this.m_PictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.PictureBox_Paint);
@@ -515,7 +527,7 @@ namespace AsynchronousGrab
             this.m_LogTable.RowCount = 2;
             this.m_LogTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.m_LogTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.m_LogTable.Size = new System.Drawing.Size(1352, 139);
+            this.m_LogTable.Size = new System.Drawing.Size(1396, 139);
             this.m_LogTable.TabIndex = 4;
             // 
             // label2
@@ -532,7 +544,7 @@ namespace AsynchronousGrab
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Location = new System.Drawing.Point(3, 21);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(1346, 22);
+            this.label3.Size = new System.Drawing.Size(1390, 22);
             this.label3.TabIndex = 5;
             this.label3.Text = "Programming example to demonstrate how to acquire images asynchronously (grab) wi" +
     "th VimbaNET.";
@@ -544,7 +556,7 @@ namespace AsynchronousGrab
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.groupBox1.Location = new System.Drawing.Point(3, 664);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1352, 46);
+            this.groupBox1.Size = new System.Drawing.Size(1396, 46);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Description";
@@ -558,6 +570,15 @@ namespace AsynchronousGrab
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.button5);
+            this.splitContainer1.Panel1.Controls.Add(this.button4);
+            this.splitContainer1.Panel1.Controls.Add(this.tb_expp);
+            this.splitContainer1.Panel1.Controls.Add(this.btn_modifyCross);
+            this.splitContainer1.Panel1.Controls.Add(this.tb_crossY);
+            this.splitContainer1.Panel1.Controls.Add(this.tb_crossX);
+            this.splitContainer1.Panel1.Controls.Add(this.tb_exp);
+            this.splitContainer1.Panel1.Controls.Add(this.cb_cross);
+            this.splitContainer1.Panel1.Controls.Add(this.rtb_result);
             this.splitContainer1.Panel1.Controls.Add(this.button3);
             this.splitContainer1.Panel1.Controls.Add(this.btn_stamp);
             this.splitContainer1.Panel1.Controls.Add(this.pb_sub);
@@ -567,19 +588,114 @@ namespace AsynchronousGrab
             this.splitContainer1.Panel1.Controls.Add(this.button2);
             this.splitContainer1.Panel1.Controls.Add(this.btn_center1);
             this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
+            this.splitContainer1.Panel1.ForeColor = System.Drawing.Color.Black;
             this.splitContainer1.Panel1MinSize = 100;
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.m_LogTable);
             this.splitContainer1.Panel2MinSize = 50;
-            this.splitContainer1.Size = new System.Drawing.Size(1352, 661);
+            this.splitContainer1.Size = new System.Drawing.Size(1396, 661);
             this.splitContainer1.SplitterDistance = 518;
             this.splitContainer1.TabIndex = 8;
             // 
+            // button5
+            // 
+            this.button5.ForeColor = System.Drawing.Color.Purple;
+            this.button5.Location = new System.Drawing.Point(1207, 447);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(99, 30);
+            this.button5.TabIndex = 19;
+            this.button5.Text = "設為預設";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // button4
+            // 
+            this.button4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.button4.Location = new System.Drawing.Point(1095, 447);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(99, 30);
+            this.button4.TabIndex = 18;
+            this.button4.Text = "載入預設";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // tb_expp
+            // 
+            this.tb_expp.Location = new System.Drawing.Point(1296, 360);
+            this.tb_expp.Name = "tb_expp";
+            this.tb_expp.Size = new System.Drawing.Size(97, 25);
+            this.tb_expp.TabIndex = 17;
+            // 
+            // btn_modifyCross
+            // 
+            this.btn_modifyCross.ForeColor = System.Drawing.Color.Red;
+            this.btn_modifyCross.Location = new System.Drawing.Point(1313, 411);
+            this.btn_modifyCross.Name = "btn_modifyCross";
+            this.btn_modifyCross.Size = new System.Drawing.Size(54, 30);
+            this.btn_modifyCross.TabIndex = 16;
+            this.btn_modifyCross.Text = "更改";
+            this.btn_modifyCross.UseVisualStyleBackColor = true;
+            this.btn_modifyCross.Click += new System.EventHandler(this.btn_modifyCross_Click);
+            // 
+            // tb_crossY
+            // 
+            this.tb_crossY.Font = new System.Drawing.Font("新細明體", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.tb_crossY.ForeColor = System.Drawing.Color.Red;
+            this.tb_crossY.Location = new System.Drawing.Point(1236, 413);
+            this.tb_crossY.Name = "tb_crossY";
+            this.tb_crossY.Size = new System.Drawing.Size(70, 28);
+            this.tb_crossY.TabIndex = 15;
+            this.tb_crossY.Text = "512";
+            // 
+            // tb_crossX
+            // 
+            this.tb_crossX.Font = new System.Drawing.Font("新細明體", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.tb_crossX.ForeColor = System.Drawing.Color.Red;
+            this.tb_crossX.Location = new System.Drawing.Point(1160, 413);
+            this.tb_crossX.Name = "tb_crossX";
+            this.tb_crossX.Size = new System.Drawing.Size(70, 28);
+            this.tb_crossX.TabIndex = 14;
+            this.tb_crossX.Text = "640";
+            // 
+            // tb_exp
+            // 
+            this.tb_exp.Location = new System.Drawing.Point(1079, 360);
+            this.tb_exp.Maximum = 1410065;
+            this.tb_exp.Minimum = 45;
+            this.tb_exp.Name = "tb_exp";
+            this.tb_exp.Size = new System.Drawing.Size(227, 56);
+            this.tb_exp.TabIndex = 13;
+            this.tb_exp.Value = 45;
+            this.tb_exp.Scroll += new System.EventHandler(this.trackBar5_Scroll_1);
+            // 
+            // cb_cross
+            // 
+            this.cb_cross.AutoSize = true;
+            this.cb_cross.Checked = true;
+            this.cb_cross.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_cross.Enabled = false;
+            this.cb_cross.ForeColor = System.Drawing.Color.Red;
+            this.cb_cross.Location = new System.Drawing.Point(1074, 417);
+            this.cb_cross.Name = "cb_cross";
+            this.cb_cross.Size = new System.Drawing.Size(89, 19);
+            this.cb_cross.TabIndex = 12;
+            this.cb_cross.Text = "十字座標";
+            this.cb_cross.UseVisualStyleBackColor = true;
+            this.cb_cross.CheckedChanged += new System.EventHandler(this.cb_cross_CheckedChanged);
+            // 
+            // rtb_result
+            // 
+            this.rtb_result.Location = new System.Drawing.Point(1160, 109);
+            this.rtb_result.Name = "rtb_result";
+            this.rtb_result.Size = new System.Drawing.Size(141, 96);
+            this.rtb_result.TabIndex = 11;
+            this.rtb_result.Text = "";
+            // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(1206, 168);
+            this.button3.Location = new System.Drawing.Point(1183, 216);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(118, 49);
             this.button3.TabIndex = 10;
@@ -589,7 +705,7 @@ namespace AsynchronousGrab
             // 
             // btn_stamp
             // 
-            this.btn_stamp.Location = new System.Drawing.Point(1074, 165);
+            this.btn_stamp.Location = new System.Drawing.Point(1074, 215);
             this.btn_stamp.Name = "btn_stamp";
             this.btn_stamp.Size = new System.Drawing.Size(103, 53);
             this.btn_stamp.TabIndex = 9;
@@ -599,10 +715,10 @@ namespace AsynchronousGrab
             // 
             // pb_sub
             // 
-            this.pb_sub.Location = new System.Drawing.Point(1074, 221);
+            this.pb_sub.Location = new System.Drawing.Point(1076, 271);
             this.pb_sub.Margin = new System.Windows.Forms.Padding(0);
             this.pb_sub.Name = "pb_sub";
-            this.pb_sub.Size = new System.Drawing.Size(278, 247);
+            this.pb_sub.Size = new System.Drawing.Size(278, 86);
             this.pb_sub.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb_sub.TabIndex = 8;
             this.pb_sub.TabStop = false;
@@ -613,9 +729,8 @@ namespace AsynchronousGrab
             this.lb_result.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lb_result.Location = new System.Drawing.Point(1091, 124);
             this.lb_result.Name = "lb_result";
-            this.lb_result.Size = new System.Drawing.Size(53, 20);
+            this.lb_result.Size = new System.Drawing.Size(0, 20);
             this.lb_result.TabIndex = 7;
-            this.lb_result.Text = "label8";
             // 
             // lb_center1
             // 
@@ -623,9 +738,8 @@ namespace AsynchronousGrab
             this.lb_center1.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lb_center1.Location = new System.Drawing.Point(1194, 72);
             this.lb_center1.Name = "lb_center1";
-            this.lb_center1.Size = new System.Drawing.Size(53, 20);
+            this.lb_center1.Size = new System.Drawing.Size(0, 20);
             this.lb_center1.TabIndex = 6;
-            this.lb_center1.Text = "label8";
             // 
             // lb_center0
             // 
@@ -633,9 +747,8 @@ namespace AsynchronousGrab
             this.lb_center0.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lb_center0.Location = new System.Drawing.Point(1194, 27);
             this.lb_center0.Name = "lb_center0";
-            this.lb_center0.Size = new System.Drawing.Size(53, 20);
+            this.lb_center0.Size = new System.Drawing.Size(0, 20);
             this.lb_center0.TabIndex = 5;
-            this.lb_center0.Text = "label8";
             // 
             // button2
             // 
@@ -689,7 +802,7 @@ namespace AsynchronousGrab
             // 
             // MainForm
             // 
-            this.ClientSize = new System.Drawing.Size(1358, 713);
+            this.ClientSize = new System.Drawing.Size(1402, 713);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.groupBox1);
             this.MinimumSize = new System.Drawing.Size(400, 350);
@@ -698,6 +811,7 @@ namespace AsynchronousGrab
             this.Text = "VimbaNET Asynchronous Grab Example";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MainForm_KeyPress);
             this.m_CameraListTable.ResumeLayout(false);
             this.m_CameraListTable.PerformLayout();
             this.tableLayoutPanel5.ResumeLayout(false);
@@ -724,6 +838,7 @@ namespace AsynchronousGrab
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tb_exp)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_sub)).EndInit();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
@@ -761,15 +876,15 @@ namespace AsynchronousGrab
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tb_p2;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TrackBar trackBar2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox tb_minR;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TrackBar trackBar3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox tb_maxR;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TrackBar trackBar4;
         private System.Windows.Forms.TextBox tb_lens;
@@ -781,6 +896,16 @@ namespace AsynchronousGrab
         private System.Windows.Forms.PictureBox pb_sub;
         private System.Windows.Forms.Button btn_stamp;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.RichTextBox rtb_result;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.CheckBox cb_cross;
+        private System.Windows.Forms.TrackBar tb_exp;
+        private System.Windows.Forms.Button btn_modifyCross;
+        private System.Windows.Forms.TextBox tb_crossY;
+        private System.Windows.Forms.TextBox tb_crossX;
+        private System.Windows.Forms.TextBox tb_expp;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
     }
 }
 
