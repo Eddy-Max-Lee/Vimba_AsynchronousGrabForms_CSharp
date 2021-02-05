@@ -91,6 +91,7 @@ namespace AsynchronousGrab
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.tb_expp = new System.Windows.Forms.TextBox();
@@ -499,12 +500,11 @@ namespace AsynchronousGrab
             this.m_LogList.Location = new System.Drawing.Point(0, 15);
             this.m_LogList.Margin = new System.Windows.Forms.Padding(0);
             this.m_LogList.Name = "m_LogList";
-            this.m_LogList.Size = new System.Drawing.Size(1396, 124);
+            this.m_LogList.Size = new System.Drawing.Size(1426, 124);
             this.m_LogList.TabIndex = 1;
             // 
             // m_PictureBox
             // 
-            this.m_PictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.m_PictureBox.Location = new System.Drawing.Point(0, 0);
             this.m_PictureBox.Margin = new System.Windows.Forms.Padding(0);
             this.m_PictureBox.Name = "m_PictureBox";
@@ -527,7 +527,7 @@ namespace AsynchronousGrab
             this.m_LogTable.RowCount = 2;
             this.m_LogTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.m_LogTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.m_LogTable.Size = new System.Drawing.Size(1396, 139);
+            this.m_LogTable.Size = new System.Drawing.Size(1426, 139);
             this.m_LogTable.TabIndex = 4;
             // 
             // label2
@@ -544,7 +544,7 @@ namespace AsynchronousGrab
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Location = new System.Drawing.Point(3, 21);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(1390, 22);
+            this.label3.Size = new System.Drawing.Size(1420, 22);
             this.label3.TabIndex = 5;
             this.label3.Text = "Programming example to demonstrate how to acquire images asynchronously (grab) wi" +
     "th VimbaNET.";
@@ -556,7 +556,7 @@ namespace AsynchronousGrab
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.groupBox1.Location = new System.Drawing.Point(3, 664);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1396, 46);
+            this.groupBox1.Size = new System.Drawing.Size(1426, 46);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Description";
@@ -570,6 +570,7 @@ namespace AsynchronousGrab
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.checkBox1);
             this.splitContainer1.Panel1.Controls.Add(this.button5);
             this.splitContainer1.Panel1.Controls.Add(this.button4);
             this.splitContainer1.Panel1.Controls.Add(this.tb_expp);
@@ -595,14 +596,28 @@ namespace AsynchronousGrab
             // 
             this.splitContainer1.Panel2.Controls.Add(this.m_LogTable);
             this.splitContainer1.Panel2MinSize = 50;
-            this.splitContainer1.Size = new System.Drawing.Size(1396, 661);
+            this.splitContainer1.Size = new System.Drawing.Size(1426, 661);
             this.splitContainer1.SplitterDistance = 518;
             this.splitContainer1.TabIndex = 8;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox1.ForeColor = System.Drawing.Color.Red;
+            this.checkBox1.Location = new System.Drawing.Point(1095, 227);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(59, 19);
+            this.checkBox1.TabIndex = 20;
+            this.checkBox1.Text = "標記";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // button5
             // 
             this.button5.ForeColor = System.Drawing.Color.Purple;
-            this.button5.Location = new System.Drawing.Point(1207, 447);
+            this.button5.Location = new System.Drawing.Point(1228, 484);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(99, 30);
             this.button5.TabIndex = 19;
@@ -613,7 +628,7 @@ namespace AsynchronousGrab
             // button4
             // 
             this.button4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.button4.Location = new System.Drawing.Point(1095, 447);
+            this.button4.Location = new System.Drawing.Point(1116, 484);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(99, 30);
             this.button4.TabIndex = 18;
@@ -623,15 +638,16 @@ namespace AsynchronousGrab
             // 
             // tb_expp
             // 
-            this.tb_expp.Location = new System.Drawing.Point(1296, 360);
+            this.tb_expp.Location = new System.Drawing.Point(1317, 397);
             this.tb_expp.Name = "tb_expp";
             this.tb_expp.Size = new System.Drawing.Size(97, 25);
             this.tb_expp.TabIndex = 17;
+            this.tb_expp.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_expp_KeyDown);
             // 
             // btn_modifyCross
             // 
             this.btn_modifyCross.ForeColor = System.Drawing.Color.Red;
-            this.btn_modifyCross.Location = new System.Drawing.Point(1313, 411);
+            this.btn_modifyCross.Location = new System.Drawing.Point(1334, 448);
             this.btn_modifyCross.Name = "btn_modifyCross";
             this.btn_modifyCross.Size = new System.Drawing.Size(54, 30);
             this.btn_modifyCross.TabIndex = 16;
@@ -643,7 +659,7 @@ namespace AsynchronousGrab
             // 
             this.tb_crossY.Font = new System.Drawing.Font("新細明體", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.tb_crossY.ForeColor = System.Drawing.Color.Red;
-            this.tb_crossY.Location = new System.Drawing.Point(1236, 413);
+            this.tb_crossY.Location = new System.Drawing.Point(1257, 450);
             this.tb_crossY.Name = "tb_crossY";
             this.tb_crossY.Size = new System.Drawing.Size(70, 28);
             this.tb_crossY.TabIndex = 15;
@@ -653,7 +669,7 @@ namespace AsynchronousGrab
             // 
             this.tb_crossX.Font = new System.Drawing.Font("新細明體", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.tb_crossX.ForeColor = System.Drawing.Color.Red;
-            this.tb_crossX.Location = new System.Drawing.Point(1160, 413);
+            this.tb_crossX.Location = new System.Drawing.Point(1181, 450);
             this.tb_crossX.Name = "tb_crossX";
             this.tb_crossX.Size = new System.Drawing.Size(70, 28);
             this.tb_crossX.TabIndex = 14;
@@ -661,13 +677,13 @@ namespace AsynchronousGrab
             // 
             // tb_exp
             // 
-            this.tb_exp.Location = new System.Drawing.Point(1079, 360);
-            this.tb_exp.Maximum = 1410065;
-            this.tb_exp.Minimum = 45;
+            this.tb_exp.Location = new System.Drawing.Point(1100, 397);
+            this.tb_exp.Maximum = 60000;
+            this.tb_exp.Minimum = 20000;
             this.tb_exp.Name = "tb_exp";
             this.tb_exp.Size = new System.Drawing.Size(227, 56);
             this.tb_exp.TabIndex = 13;
-            this.tb_exp.Value = 45;
+            this.tb_exp.Value = 30000;
             this.tb_exp.Scroll += new System.EventHandler(this.trackBar5_Scroll_1);
             // 
             // cb_cross
@@ -677,7 +693,7 @@ namespace AsynchronousGrab
             this.cb_cross.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cb_cross.Enabled = false;
             this.cb_cross.ForeColor = System.Drawing.Color.Red;
-            this.cb_cross.Location = new System.Drawing.Point(1074, 417);
+            this.cb_cross.Location = new System.Drawing.Point(1095, 454);
             this.cb_cross.Name = "cb_cross";
             this.cb_cross.Size = new System.Drawing.Size(89, 19);
             this.cb_cross.TabIndex = 12;
@@ -687,7 +703,7 @@ namespace AsynchronousGrab
             // 
             // rtb_result
             // 
-            this.rtb_result.Location = new System.Drawing.Point(1160, 109);
+            this.rtb_result.Location = new System.Drawing.Point(1181, 115);
             this.rtb_result.Name = "rtb_result";
             this.rtb_result.Size = new System.Drawing.Size(141, 96);
             this.rtb_result.TabIndex = 11;
@@ -695,7 +711,7 @@ namespace AsynchronousGrab
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(1183, 216);
+            this.button3.Location = new System.Drawing.Point(1204, 253);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(118, 49);
             this.button3.TabIndex = 10;
@@ -705,7 +721,7 @@ namespace AsynchronousGrab
             // 
             // btn_stamp
             // 
-            this.btn_stamp.Location = new System.Drawing.Point(1074, 215);
+            this.btn_stamp.Location = new System.Drawing.Point(1095, 252);
             this.btn_stamp.Name = "btn_stamp";
             this.btn_stamp.Size = new System.Drawing.Size(103, 53);
             this.btn_stamp.TabIndex = 9;
@@ -715,7 +731,7 @@ namespace AsynchronousGrab
             // 
             // pb_sub
             // 
-            this.pb_sub.Location = new System.Drawing.Point(1076, 271);
+            this.pb_sub.Location = new System.Drawing.Point(1097, 308);
             this.pb_sub.Margin = new System.Windows.Forms.Padding(0);
             this.pb_sub.Name = "pb_sub";
             this.pb_sub.Size = new System.Drawing.Size(278, 86);
@@ -736,7 +752,7 @@ namespace AsynchronousGrab
             // 
             this.lb_center1.AutoSize = true;
             this.lb_center1.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.lb_center1.Location = new System.Drawing.Point(1194, 72);
+            this.lb_center1.Location = new System.Drawing.Point(1215, 78);
             this.lb_center1.Name = "lb_center1";
             this.lb_center1.Size = new System.Drawing.Size(0, 20);
             this.lb_center1.TabIndex = 6;
@@ -745,14 +761,14 @@ namespace AsynchronousGrab
             // 
             this.lb_center0.AutoSize = true;
             this.lb_center0.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.lb_center0.Location = new System.Drawing.Point(1194, 27);
+            this.lb_center0.Location = new System.Drawing.Point(1215, 33);
             this.lb_center0.Name = "lb_center0";
             this.lb_center0.Size = new System.Drawing.Size(0, 20);
             this.lb_center0.TabIndex = 5;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(1074, 56);
+            this.button2.Location = new System.Drawing.Point(1095, 62);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(103, 47);
             this.button2.TabIndex = 4;
@@ -762,7 +778,7 @@ namespace AsynchronousGrab
             // 
             // btn_center1
             // 
-            this.btn_center1.Location = new System.Drawing.Point(1074, 3);
+            this.btn_center1.Location = new System.Drawing.Point(1095, 9);
             this.btn_center1.Name = "btn_center1";
             this.btn_center1.Size = new System.Drawing.Size(103, 47);
             this.btn_center1.TabIndex = 3;
@@ -802,7 +818,7 @@ namespace AsynchronousGrab
             // 
             // MainForm
             // 
-            this.ClientSize = new System.Drawing.Size(1402, 713);
+            this.ClientSize = new System.Drawing.Size(1432, 713);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.groupBox1);
             this.MinimumSize = new System.Drawing.Size(400, 350);
@@ -906,6 +922,7 @@ namespace AsynchronousGrab
         private System.Windows.Forms.TextBox tb_expp;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 

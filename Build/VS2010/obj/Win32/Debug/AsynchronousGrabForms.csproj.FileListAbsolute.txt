@@ -118,3 +118,8 @@ D:\Spectral Program\Vimba_A_Grab\Vimba_AsynchronousGrabForms\Build\VS2010\obj\Wi
 D:\Spectral Program\Vimba_A_Grab\Vimba_AsynchronousGrabForms\Build\VS2010\obj\Win32\Debug\AsynchronousGrabForms.csproj.CopyComplete
 D:\Spectral Program\Vimba_A_Grab\Vimba_AsynchronousGrabForms\Build\VS2010\obj\Win32\Debug\AsynchronousGrabForms.exe
 D:\Spectral Program\Vimba_A_Grab\Vimba_AsynchronousGrabForms\Build\VS2010\obj\Win32\Debug\AsynchronousGrabForms.pdb
+D:\Spectral Program\Vimba_A_Grab\Vimba_AsynchronousGrabForms\Build\VS2010\Win32\Debug\dll\x86\OpenCvSharpExtern.dll
+D:\Spectral Program\Vimba_A_Grab\Vimba_AsynchronousGrabForms\Build\VS2010\Win32\Debug\dll\x86\opencv_videoio_ffmpeg451.dll
+D:\Spectral Program\Vimba_A_Grab\Vimba_AsynchronousGrabForms\Build\VS2010\Win32\Debug\dll\x64\OpenCvSharpExtern.dll
+D:\Spectral Program\Vimba_A_Grab\Vimba_AsynchronousGrabForms\Build\VS2010\Win32\Debug\dll\x64\opencv_videoio_ffmpeg451_64.dll
+D:\Spectral Program\Vimba_A_Grab\Vimba_AsynchronousGrabForms\Build\VS2010\Win32\Debug\WindowsBase.dll

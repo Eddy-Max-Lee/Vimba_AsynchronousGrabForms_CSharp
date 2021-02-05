@@ -71,6 +71,8 @@ namespace AsynchronousGrab
         private static double global_scaleX = 1;
         private static double global_scaleY = 1;
 
+        private static bool isPainting = true;
+
         /// <summary>
         /// The VimbaHelper (see VimbaHelper Class)
         /// </summary>
@@ -161,6 +163,10 @@ namespace AsynchronousGrab
             Cv2.Line(dst,0, global_crossY, src.Width, global_crossY, new Scalar(255,255,255),1,LineTypes.AntiAlias);
             //畫直線global_crossX global_crossY
             Cv2.Line(dst, global_crossX, 0, global_crossX, src.Height, new Scalar(255, 255, 255), 1, LineTypes.AntiAlias);
+            //畫中心
+            Cv2.Rectangle(dst, new OpenCvSharp.Point(global_crossX-3, global_crossY-3), new OpenCvSharp.Point(global_crossX+3, global_crossY+3), new Scalar(0, 0, 0), -1, LineTypes.AntiAlias);
+            //畫中心外框
+            Cv2.Rectangle(dst, new OpenCvSharp.Point(global_crossX - 4, global_crossY - 4), new OpenCvSharp.Point(global_crossX + 4, global_crossY + 4),  new Scalar(255, 255, 255), 2, LineTypes.AntiAlias);
             //  Allied_Vision_Mako_U_130BCamera.ExposureTime
             //  Allied_Vision_Mako_U_130BCamera = new Allied_Vision_Mako_U_130BCamera();
 
@@ -206,6 +212,8 @@ namespace AsynchronousGrab
             int Rang = 55;
 
             int i = 0;
+
+            if(isPainting)
             for (i = 0; i < cs.Length; i++)
             {
                 if (i > 6) break;
@@ -232,8 +240,8 @@ namespace AsynchronousGrab
                 }*/
             if (cs.Length == 1)
             {
-                centerX = cs[0].Center.X + shiftX;
-                centerY = cs[0].Center.Y + shiftY;
+                centerX = Math.Floor(cs[0].Center.X + shiftX);
+                centerY = Math.Floor(cs[0].Center.Y + shiftY);
             }
 
             foreach (var rad in cs)
@@ -241,6 +249,7 @@ namespace AsynchronousGrab
                 Console.Write(rad.Radius + ',');
             }
             Console.WriteLine("There are " + i + " in this frame");
+            LogMessage("There are " + i + " in this frame");
             return dst;
 
         }
@@ -346,16 +355,16 @@ namespace AsynchronousGrab
                 if (null != mat0)
                 {
                     //mat = HoughCircles(mat);
-                    Mat mat1 = new Mat();
+                //    Mat mat1 = new Mat();
                     
-                    mat1 = previous_process(mat0);
+                //    mat1 = previous_process(mat0);
 
-                    pb_sub.Image = BitmapConverter.ToBitmap(mat1);
+                  //  pb_sub.Image = BitmapConverter.ToBitmap(mat1);
                     //  Mat2Bitmap(mat);
                     BMP_BUFF = BitmapConverter.ToBitmap(HoughCircles(mat0, global_shiftX, global_shiftY));
                     m_PictureBox.Image = BMP_BUFF; //<====影像
                     ScaleImage(BMP_BUFF);
-                    Thread.Sleep(500);
+                    Thread.Sleep(50);
 
 
                 }
@@ -428,6 +437,13 @@ namespace AsynchronousGrab
         /// <param name="e">The EventArgs (not used)</param>
         private void MainForm_Load(object sender, EventArgs e)
         {
+            //自動載入PARAMETER
+            List<string> Para_memory = new List<string>();
+            Para_memory = File.ReadAllLines(@"param\" + "memory.txt").ToList();
+
+            tb_crossX.Text = Para_memory[0];
+            tb_crossY.Text = Para_memory[1];
+
             //  Mat mat0 = new Mat();
             p1 = trackBar1.Value;
             p2 = trackBar2.Value;
@@ -857,28 +873,56 @@ namespace AsynchronousGrab
 
         private void btn_stamp_Click(object sender, EventArgs e)
         {
+           //===先關掉標記=================
+            isPainting = false;
+
+            if (m_Acquiring == false)
+            {
+                Mat mat01 = new Mat();
+                Bitmap bmp1 = new Bitmap(BMP_BUFF);
+                mat01 = BitmapConverter.ToMat(BMP_BUFF);
+                bmp1 = BitmapConverter.ToBitmap(HoughCircles(mat01, global_shiftX, global_shiftY));
+                // display image in picture box  
+                m_PictureBox.Image = bmp1;
+                ScaleImage(BMP_BUFF);
+            }
+
+            //====================================
             Mat mat0 = new Mat();
-            Bitmap bmp = new Bitmap(BMP_BUFF);
-            mat0 = BitmapConverter.ToMat(BMP_BUFF);
+            Bitmap bmp =(Bitmap)m_PictureBox.Image;
+            mat0 = BitmapConverter.ToMat(bmp);
 
             // display image in picture box  
-            m_PictureBox.Image = bmp;
+            //   m_PictureBox.Image = bmp;
 
-
-            Cv2.PutText(mat0, LEN_NAME != "" ? LEN_NAME : "Name", new OpenCvSharp.Point(30, 80), HersheyFonts.HersheyComplex, 3, new Scalar(255, 255, 255), 2, LineTypes.AntiAlias);
-            bmp = BitmapConverter.ToBitmap(mat0);
+            Mat mat1 = DrawCross(mat0);
+            Cv2.PutText(mat1, LEN_NAME != "" ? LEN_NAME : "Name", new OpenCvSharp.Point(30, 80), HersheyFonts.HersheyComplex, 3, new Scalar(255, 255, 255), 2, LineTypes.AntiAlias);
+            bmp = BitmapConverter.ToBitmap(mat1);
 
             //------Save
             SaveFileDialog dialog = new SaveFileDialog();
-            dialog.FileName = LEN_NAME + "_stamped.bmp";
+            dialog.FileName = LEN_NAME + "("+centerX +"_"+ centerY + ")_stamped";
+       //      string ini_dir= dialog.InitialDirectory;
+         //   dialog.InitialDirectory = ini_dir+"\\stamp"; 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                int width = Convert.ToInt32(m_PictureBox.Width);
-                int height = Convert.ToInt32(m_PictureBox.Height);
-
-                // m_PictureBox.DrawToBitmap(bmp, new Rectangle(0, 0, width, height));
-
                 bmp.Save(dialog.FileName + ".bmp", ImageFormat.Bmp);
+            }
+
+
+            //=====再打開標記========================
+
+            isPainting = true;
+
+            if (m_Acquiring == false)
+            {
+                Mat mat01 = new Mat();
+                Bitmap bmp1 = new Bitmap(BMP_BUFF);
+                mat01 = BitmapConverter.ToMat(BMP_BUFF);
+                bmp1 = BitmapConverter.ToBitmap(HoughCircles(mat01, global_shiftX, global_shiftY));
+                // display image in picture box  
+                m_PictureBox.Image = bmp1;
+                ScaleImage(BMP_BUFF);
             }
 
         }
@@ -960,13 +1004,23 @@ namespace AsynchronousGrab
 
         private void trackBar5_Scroll_1(object sender, EventArgs e)
         {
-            m_VimbaHelper.ExposureTime = tb_exp.Value;
-            tb_expp.Text = tb_exp.Value.ToString();
+            tb_expp.Text =  Math.Pow(10,tb_exp.Value/10000.0).ToString();
+            double exp = Convert.ToDouble(tb_expp.Text);
+            m_VimbaHelper.ExposureTime = exp;
+         
         }
+        private void tb_expp_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                double exp = Convert.ToDouble(tb_expp.Text);
+                m_VimbaHelper.ExposureTime = exp;
+                tb_exp.Value = Convert.ToInt32(Math.Log10(Convert.ToDouble(tb_expp.Text)) * 10000.0);//tb_exp.Value
 
+            }
 
-
-        private void cb_cross_CheckedChanged(object sender, EventArgs e)
+        }
+            private void cb_cross_CheckedChanged(object sender, EventArgs e)
         {
             if (cb_cross.Checked)
             {
@@ -1004,5 +1058,22 @@ namespace AsynchronousGrab
             para_memory.Add(tb_crossX.Text+"\n"+ tb_crossY.Text);
             File.WriteAllLines(@"param\" + "memory.txt", para_memory);
         }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+             isPainting= checkBox1.Checked;
+
+            if (m_Acquiring == false)
+            {
+                Mat mat0 = new Mat();
+                Bitmap bmp = new Bitmap(BMP_BUFF);
+                mat0 = BitmapConverter.ToMat(BMP_BUFF);
+                bmp = BitmapConverter.ToBitmap(HoughCircles(mat0, global_shiftX, global_shiftY));
+                // display image in picture box  
+                m_PictureBox.Image = bmp;
+                ScaleImage(BMP_BUFF);
+            }
+
+        }
     }
-}
+    }
