@@ -108,6 +108,7 @@ namespace AsynchronousGrab
 
         }
 
+
         /// <summary>
         /// Add an error log message and show an error message box
         /// </summary>
@@ -249,7 +250,7 @@ namespace AsynchronousGrab
                 Console.Write(rad.Radius + ',');
             }
             Console.WriteLine("There are " + i + " in this frame");
-            LogMessage("There are " + i + " in this frame");
+            
             return dst;
 
         }
@@ -728,7 +729,7 @@ namespace AsynchronousGrab
         private void button1_Click(object sender, EventArgs e)
         {
             SaveFileDialog dialog = new SaveFileDialog();
-            dialog.FileName = LEN_NAME + ".bmp";
+            dialog.FileName = LEN_NAME;
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 int width = Convert.ToInt32(m_PictureBox.Width);
